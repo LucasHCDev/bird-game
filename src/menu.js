@@ -16,6 +16,12 @@ export const Menu = makeSprite({
                 color: "white",
                 y: 100,
             }),
+            t.text({
+                text: `High score: ${props.highScore}`,
+                font: { family: "Courier", size: 24 },
+                color: "white",
+                y: 150,
+            }),
         ];
     },
 });

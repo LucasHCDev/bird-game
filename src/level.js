@@ -11,16 +11,17 @@ export const Level = makeSprite({
       birdY: 10,
       birdGravity: -12,
       pipes: props.paused ? [] : [newPipe(device)],
+      score: 0,
     };  
   },
   
-  loop({ props, state, getInputs }) {
+  loop({ props, state, getInputs, device }) {
     if (props.paused) {
       return state;
     }
     const inputs = getInputs();
   
-    let { birdGravity, birdY, pipes } = state;
+    let { birdGravity, birdY, pipes, score } = state;
     
     birdGravity += 0.8; 
     birdY -= birdGravity;
@@ -40,7 +41,7 @@ export const Level = makeSprite({
     }
 
     if (didHitPipe(birdY, device.size, pipes)) {
-      props.gameOver();
+      props.gameOver(state.score);
     }
 
     //Move pipes to the left
@@ -49,6 +50,7 @@ export const Level = makeSprite({
       if (!passed && pipe.x < birdX - birdWidth / 2 - pipeWidth / 2) {
         //Mark pipe as having passed bird's x position
         passed = true;
+        score++;
       }
       return {...pipe, passed, x: pipe.x - speedX };
     });
@@ -57,6 +59,7 @@ export const Level = makeSprite({
       birdGravity,
       birdY,
       pipes,
+      score,
     };
   },
   
@@ -82,6 +85,15 @@ export const Level = makeSprite({
         x: pipe.x,
       })
       ),
+      t.text({
+        text: `Score: ${state.score}`,
+        color: "white",
+        x: -device.size.width / 2 + 10,
+        y: device.size.height / 2 + device.size.heightMargin - 80,
+        font: {
+          align: "left",
+        },
+      }),
     ];
   },
 });
@@ -124,6 +136,12 @@ function didHitPipe(birdY, size, pipes) {
       y: (yUpperTop + yUpperBottom) / 2,
       width: pipeWidth,
       height: yUpperTop - yUpperBottom,
+    };
+    const bottomPipeRect = {
+      x: pipe.x,
+      y: (yLowerTop + yLowerBottom) / 2,
+      width: pipeWidth,
+      height: yLowerTop - yLowerBottom,
     };
     // check a few points at edges of bird
     const birdPoints = [
