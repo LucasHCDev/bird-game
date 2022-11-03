@@ -11,8 +11,11 @@ export const Level = makeSprite({
     };  
   },
   
-  loop({ state, getInputs }) {
-  const inputs = getInputs();
+  loop({ props, state, getInputs }) {
+    if (props.paused) {
+      return state;
+    }
+    const inputs = getInputs();
   
     let { birdGravity, birdY } = state;
     
@@ -42,6 +45,7 @@ export const Level = makeSprite({
         id: "bird",
         x: birdX,
         y: state.birdY,
+        rotation: Math.max(-30, state.birdGravity * 3 - 30),
       }),
     ];
   },
