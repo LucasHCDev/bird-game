@@ -1,12 +1,13 @@
 import { makeSprite, t } from "@replay/core";
 import { Level } from "./level";
+import { Menu } from "./menu";
 
 export const Game = makeSprite({
   init() {
     return { view: "menu" };
   },
 
-  render({ state }) {
+  render({ state, updateState }) {
     const inMenuScreen = state.view === "menu";
 
     return [
@@ -14,6 +15,19 @@ export const Game = makeSprite({
         id: "level",
         paused: inMenuScreen,
       }),
+      inMenuScreen
+      ? Menu({
+        id: "menu",
+        start: () => {
+          updateState((prevState) => {
+            return {
+              ...prevState,
+              view: "Level",
+            };
+          });
+        },
+      })
+      : null,
       ];
   },
 });
