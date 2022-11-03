@@ -11,11 +11,17 @@ export const Level = makeSprite({
     };  
   },
   
-  loop({ state }) {
+  loop({ state, getInputs }) {
+  const inputs = getInputs();
+  
     let { birdGravity, birdY } = state;
     
     birdGravity += 0.8; 
     birdY -= birdGravity;
+    
+    if (inputs.pointer.justPressed) { 
+      birdGravity = -12;
+    }
     
     return {
       birdGravity,
