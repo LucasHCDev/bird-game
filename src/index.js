@@ -1,4 +1,15 @@
 import { makeSprite, t } from "@replay/core";
+import { bird } from "./bird";
+
+export const Game = makeSprite({
+  render() {
+    return [
+      Bird({
+        id: "bird",
+      }),
+      ];
+  },
+});
 
 export const options = {
   dimensions: "scale-up",
