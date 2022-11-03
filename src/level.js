@@ -1,4 +1,4 @@
-import { makeSprite } from "@replay/core";
+import { makeSprite, t } from "@replay/core";
 import { Bird } from "./bird";
 
 const birdx = 0;
@@ -19,7 +19,7 @@ export const Level = makeSprite({
     birdGravity += 0.8; 
     birdY -= birdGravity;
     
-    if (inputs.pointer.justPressed) { 
+    if (inputs.pointer.justPressed || inputs.keysJustPressed[" "]) { 
       birdGravity = -12;
     }
     
@@ -29,8 +29,15 @@ export const Level = makeSprite({
     };
   },
   
-  render({ state }) {
+  render({ state, device }) {
+    const { size } = device;
     return [
+      t.rectangle({
+        color: "#add8e6",
+        width: size.width + size.widthMargin * 2,
+        height: size.height + size.heightMargin * 2,
+       }),
+    
       Bird({
         id: "bird",
         x: birdX,
