@@ -3,8 +3,13 @@ import { Level } from "./level";
 import { Menu } from "./menu";
 
 export const Game = makeSprite({
-  init({ device, updateState }) {
-    device.storage.getItem("highScore").then((highScore) => {
+  init({ device, preloadFiles, updateState }) {
+    Promise.all([
+    device.storage.getItem("highScore"),
+    preloadFiles({
+      imageFileNames: ["frame-4.png"],
+    }),
+  ]).then(([highScore]) => {
       updateState((state) => {
         return {
           ...state,
@@ -14,13 +19,23 @@ export const Game = makeSprite({
     });
 
     return {
-      view: "menu",
+      view: "loading",
       attempt: 0,
       highScore: 0,
     };
   },
 
   render({ state, updateState, device }) {
+    if (state.view === "loading") {
+      return [
+        t.text({
+          color: "black",
+          text: "Loading...",
+        }),
+      ];
+    }
+
+
     const inMenuScreen = state.view === "menu";
 
     return [
