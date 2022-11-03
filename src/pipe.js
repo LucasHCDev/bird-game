@@ -22,6 +22,12 @@ export const Pipe = makeSprite({
                 height: yUpperTop - yUpperBottom,
                 y: (yUpperTop + yUpperBottom) / 2,
             }),
+            t.rectangle({
+                color: "green",
+                width: pipeWidth,
+                height: yLowerTop - yLowerBottom,
+                y: (yLowerTop + yLowerBottom) / 2,
+            }),
         ];
     },
 });
