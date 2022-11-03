@@ -8,6 +8,7 @@ export const Game = makeSprite({
     device.storage.getItem("highScore"),
     preloadFiles({
       imageFileNames: ["frame-4.png"],
+      imageFileNames: ["boop.wav"],
     }),
   ]).then(([highScore]) => {
       updateState((state) => {

@@ -41,6 +41,7 @@ export const Level = makeSprite({
     }
 
     if (didHitPipe(birdY, device.size, pipes)) {
+      device.audio("boop.wav").play();
       props.gameOver(state.score);
     }
 
