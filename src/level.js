@@ -11,6 +11,18 @@ export const Level = makeSprite({
     };  
   },
   
+  loop({ state }) {
+    let { birdGravity, birdY } = state;
+    
+    birdGravity += 0.8; 
+    birdY -= birdGravity;
+    
+    return {
+      birdGravity,
+      birdY,
+    };
+  },
+  
   render({ state }) {
     return [
       Bird({
